@@ -33,5 +33,6 @@ dist/Debug/MSYS2-Windows/DMDSAR.exe --emulate-IMU
 
 You can use the following parameters
 
---help          shows some hwlp
---emulate-IMU   uses an emulated IMU, useful for debugging
+--help  shows some help
+
+--emulate-IMU  uses an emulated IMU, useful for debugging
