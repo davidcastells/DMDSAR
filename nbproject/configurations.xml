@@ -7,6 +7,8 @@
       <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/AbstractIMU.h</itemPath>
       <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/Emulated9DOFIMU.h</itemPath>
       <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/IMUEmulatorControl.h</itemPath>
+      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/LogIMU.h</itemPath>
+      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/PerformanceLap.h</itemPath>
       <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/Protractor.h</itemPath>
       <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/TiltSensor.h</itemPath>
     </logicalFolder>
@@ -21,8 +23,8 @@
       <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/AbstractIMU.cpp</itemPath>
       <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/Emulated9DOFIMU.cpp</itemPath>
       <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/IMUEmulatorControl.cpp</itemPath>
+      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/LogIMU.cpp</itemPath>
       <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/PerformanceLap.cpp</itemPath>
-      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/PerformanceLap.h</itemPath>
       <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/Protractor.cpp</itemPath>
       <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/TiltSensor.cpp</itemPath>
       <itemPath>src/main.cpp</itemPath>
@@ -87,6 +89,16 @@
             flavor2="0">
       </item>
       <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/IMUEmulatorControl.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/LogIMU.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/LogIMU.h"
             ex="false"
             tool="3"
             flavor2="0">
@@ -179,6 +191,16 @@
             flavor2="0">
       </item>
       <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/IMUEmulatorControl.ui"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/LogIMU.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/LogIMU.h"
             ex="false"
             tool="3"
             flavor2="0">
