@@ -34,6 +34,8 @@ public:
 public:
     /** Return acceleration in m/s^2 units */
     virtual void getAcceleration(double* ax, double *ay, double* az) = 0;
+    virtual void getGyroscope(double* gx, double *gy, double* gz) = 0;
+    virtual void getMagnetometer(double* mx, double *my, double* mz) = 0;
     
 private:
     
