@@ -25,6 +25,7 @@
 
 #include "Emulated9DOFIMU.h"
 #include "LogIMU.h"
+#include "MPU9250.h"
 
 #include <math.h>
 
@@ -92,6 +93,8 @@ void Protractor::parseOptions(int argc, char* args[])
  
     doHelp = false;
     doEmulateIMU = false;
+    doLogIMU = false;
+    doMPU9250 = false;
     
     for (int i=0; i < argc; i++)
     {
@@ -101,6 +104,8 @@ void Protractor::parseOptions(int argc, char* args[])
             doEmulateIMU = true;
         else if (strcmp(args[i], "--log-IMU") == 0)
             doLogIMU = true;
+        else if (strcmp(args[i], "--MPU9250") == 0)
+            doMPU9250 = true;
     }
     
     if (doHelp)
@@ -127,6 +132,13 @@ void Protractor::parseOptions(int argc, char* args[])
         LogIMU* logImu = new LogIMU();
         
         m_imu = logImu;
+        m_tiltSensor = new TiltSensor(m_imu);
+    }
+    else if (doMPU9250)
+    {
+        MPU9250* mpu = new MPU9250();
+        
+        m_imu = mpu;
         m_tiltSensor = new TiltSensor(m_imu);
     }
     else

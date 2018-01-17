@@ -62,6 +62,7 @@ private:
     bool    doHelp;
     bool    doEmulateIMU;
     bool    doLogIMU;
+    bool    doLogIMU;
     
     PerformanceLap m_lastEulerAnglesReport;
 };
