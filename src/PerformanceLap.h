@@ -37,9 +37,9 @@ public:
     double stop();
     double lap();
     
-private:
     double dtime();
-
+    
+private:
     double d0;
     double df;
     
