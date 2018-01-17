@@ -27,6 +27,9 @@
 
 Emulated9DOFIMU::Emulated9DOFIMU()
 {
+    m_accX = 0;
+    m_accY = 0;
+    m_accZ = 9.8;
 }
 
 Emulated9DOFIMU::Emulated9DOFIMU(const Emulated9DOFIMU& orig)
@@ -49,7 +52,7 @@ double Emulated9DOFIMU::getRand(double min, double max)
     double mean = (min + max) / 2.0;
     double rnd = rand();
     rnd = rnd * range;
-    rnd = rnd / RAND_MAX;
+    rnd = rnd / (double) RAND_MAX;
     
     rnd -= mean;
     
@@ -61,6 +64,18 @@ void Emulated9DOFIMU::getAcceleration(double* ax, double *ay, double* az)
     *ax = m_accX + getRand(-1, 1) * m_accNoiseX + m_accDriftX;
     *ay = m_accY + getRand(-1, 1) * m_accNoiseY + m_accDriftY;
     *az = m_accZ + getRand(-1, 1) * m_accNoiseZ + m_accDriftZ;
+}
+
+void Emulated9DOFIMU::getGyroscope(double* gx, double *gy, double* gz)
+{
+    *gx = 0;
+    *gy = 0;
+    *gz = 0;
+}
     
-    
+void Emulated9DOFIMU::getMagnetometer(double* mx, double *my, double* mz) 
+{
+    *mx = 0;
+    *my = 0;
+    *mz = 0;
 }
