@@ -10,8 +10,7 @@
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects/>
             <sourceRootList>
-                <sourceRootElem>/cygdrive/c\Projects\Cephis\EXT_Macsa_2015_DI\T07_SAR_Code\DMDSAR\src</sourceRootElem>
-                <sourceRootElem>C:\Projects\Cephis\EXT_Macsa_2015_DI\T07_SAR_Code\DMDSAR\src</sourceRootElem>
+                <sourceRootElem>src</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>
