@@ -4,29 +4,31 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/AbstractIMU.h</itemPath>
-      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/Emulated9DOFIMU.h</itemPath>
-      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/IMUEmulatorControl.h</itemPath>
-      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/LogIMU.h</itemPath>
-      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/PerformanceLap.h</itemPath>
-      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/Protractor.h</itemPath>
-      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/TiltSensor.h</itemPath>
+      <itemPath>src/AbstractIMU.h</itemPath>
+      <itemPath>src/Emulated9DOFIMU.h</itemPath>
+      <itemPath>src/IMUEmulatorControl.h</itemPath>
+      <itemPath>src/LogIMU.h</itemPath>
+      <itemPath>src/MPU9250.h</itemPath>
+      <itemPath>src/PerformanceLap.h</itemPath>
+      <itemPath>src/Protractor.h</itemPath>
+      <itemPath>src/TiltSensor.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
-      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/IMUEmulatorControl.ui</itemPath>
+      <itemPath>src/IMUEmulatorControl.ui</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/AbstractIMU.cpp</itemPath>
-      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/Emulated9DOFIMU.cpp</itemPath>
-      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/IMUEmulatorControl.cpp</itemPath>
-      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/LogIMU.cpp</itemPath>
-      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/PerformanceLap.cpp</itemPath>
-      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/Protractor.cpp</itemPath>
-      <itemPath>C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/TiltSensor.cpp</itemPath>
+      <itemPath>src/AbstractIMU.cpp</itemPath>
+      <itemPath>src/Emulated9DOFIMU.cpp</itemPath>
+      <itemPath>src/IMUEmulatorControl.cpp</itemPath>
+      <itemPath>src/LogIMU.cpp</itemPath>
+      <itemPath>src/MPU9250.cpp</itemPath>
+      <itemPath>src/PerformanceLap.cpp</itemPath>
+      <itemPath>src/Protractor.cpp</itemPath>
+      <itemPath>src/TiltSensor.cpp</itemPath>
       <itemPath>src/main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -42,8 +44,7 @@
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
-    <Elem>/cygdrive/c\Projects\Cephis\EXT_Macsa_2015_DI\T07_SAR_Code\DMDSAR\src</Elem>
-    <Elem>C:\Projects\Cephis\EXT_Macsa_2015_DI\T07_SAR_Code\DMDSAR\src</Elem>
+    <Elem>src</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -58,77 +59,87 @@
       </qt>
       <compileType>
       </compileType>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/AbstractIMU.cpp"
+      <item path="src/AbstractIMU.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/AbstractIMU.h"
+      <item path="src/AbstractIMU.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/Emulated9DOFIMU.cpp"
+      <item path="src/Emulated9DOFIMU.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/Emulated9DOFIMU.h"
+      <item path="src/Emulated9DOFIMU.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/IMUEmulatorControl.cpp"
+      <item path="src/IMUEmulatorControl.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/IMUEmulatorControl.h"
+      <item path="src/IMUEmulatorControl.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/IMUEmulatorControl.ui"
+      <item path="src/IMUEmulatorControl.ui"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/LogIMU.cpp"
+      <item path="src/LogIMU.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/LogIMU.h"
+      <item path="src/LogIMU.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/PerformanceLap.cpp"
+      <item path="src/MPU9250.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/PerformanceLap.h"
+      <item path="src/MPU9250.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/Protractor.cpp"
+      <item path="src/PerformanceLap.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/Protractor.h"
+      <item path="src/PerformanceLap.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/TiltSensor.cpp"
+      <item path="src/Protractor.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/TiltSensor.h"
+      <item path="src/Protractor.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/TiltSensor.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/TiltSensor.h"
             ex="false"
             tool="3"
             flavor2="0">
@@ -160,77 +171,87 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/AbstractIMU.cpp"
+      <item path="src/AbstractIMU.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/AbstractIMU.h"
+      <item path="src/AbstractIMU.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/Emulated9DOFIMU.cpp"
+      <item path="src/Emulated9DOFIMU.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/Emulated9DOFIMU.h"
+      <item path="src/Emulated9DOFIMU.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/IMUEmulatorControl.cpp"
+      <item path="src/IMUEmulatorControl.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/IMUEmulatorControl.h"
+      <item path="src/IMUEmulatorControl.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/IMUEmulatorControl.ui"
+      <item path="src/IMUEmulatorControl.ui"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/LogIMU.cpp"
+      <item path="src/LogIMU.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/LogIMU.h"
+      <item path="src/LogIMU.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/PerformanceLap.cpp"
+      <item path="src/MPU9250.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/PerformanceLap.h"
+      <item path="src/MPU9250.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/Protractor.cpp"
+      <item path="src/PerformanceLap.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/Protractor.h"
+      <item path="src/PerformanceLap.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/TiltSensor.cpp"
+      <item path="src/Protractor.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="C:/Projects/Cephis/EXT_Macsa_2015_DI/T07_SAR_Code/DMDSAR/src/TiltSensor.h"
+      <item path="src/Protractor.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/TiltSensor.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/TiltSensor.h"
             ex="false"
             tool="3"
             flavor2="0">
