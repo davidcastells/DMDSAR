@@ -26,6 +26,7 @@
 #define TILTSENSOR_H
 
 #include "AbstractIMU.h"
+#include "PerformanceLap.h"
 
 class TiltSensor {
 public:
@@ -35,13 +36,35 @@ public:
 public:
     void getTilt(double* roll, double* pitch, double* yaw);
     
+protected:
+    void mahonyUpdate(double gx, double gy, double gz, double ax, double ay, double az, double mx, double my, double mz, double elapsedTime);
+    void mahonyUpdateIMU(double gx, double gy, double gz, double ax, double ay, double az, double elapsedTime);
+    void toEulerAngles(double* roll, double* pitch, double* yaw);
+    double invSqrt(double x);
+
 private:
     AbstractIMU* m_pImu;
     
+    // for moving average filter
     int m_i;
     double m_ax[10];
     double m_ay[10];
     double m_az[10];
+    
+    // Quaternion
+    double q0;
+    double q1;
+    double q2;
+    double q3;
+    
+    double integralFBx;
+    double integralFBy;
+    double integralFBz;
+    
+    double Ki;
+    double Kp;
+    
+    PerformanceLap m_lap;
     
 };
 
