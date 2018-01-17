@@ -82,6 +82,10 @@ double PerformanceLap::stop()
     return (df-d0);
 }
 
+/**
+ * 
+ * @return elapsed seconds
+ */
 double PerformanceLap::lap()
 {
     if (df < d0)
