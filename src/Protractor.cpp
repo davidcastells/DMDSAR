@@ -23,6 +23,9 @@
 
 #include "Protractor.h"
 
+#include "Emulated9DOFIMU.h"
+#include "LogIMU.h"
+
 #include <math.h>
 
 #define PI  3.141592
@@ -79,11 +82,13 @@ void Protractor::printUsage()
     printf("[options]\n");
     printf("   --help           Show this message\n" );
     printf("   --emulate-IMU    Emulate a 9 DOF IMU\n");
+    printf("   --log-IMU        Use the WEAN HALL dataset as input\n");
+    printf("                    (expected in ./data/wean_wide_interesting.imu.log)\n");
 }
 
 void Protractor::parseOptions(int argc, char* args[])
 {
-    Emulated9DOFIMU* emulatedImu = new Emulated9DOFIMU();
+    
  
     doHelp = false;
     doEmulateIMU = false;
@@ -92,8 +97,10 @@ void Protractor::parseOptions(int argc, char* args[])
     {
         if (strcmp(args[i], "--help") == 0)
             doHelp = true;
-        if (strcmp(args[i], "--emulate-IMU") == 0)
+        else if (strcmp(args[i], "--emulate-IMU") == 0)
             doEmulateIMU = true;
+        else if (strcmp(args[i], "--log-IMU") == 0)
+            doLogIMU = true;
     }
     
     if (doHelp)
@@ -103,6 +110,8 @@ void Protractor::parseOptions(int argc, char* args[])
     
     if (doEmulateIMU)
     {
+        Emulated9DOFIMU* emulatedImu = new Emulated9DOFIMU();
+        
         m_imu = emulatedImu;
 
         imuEmulator.setIMU(emulatedImu);
@@ -113,6 +122,13 @@ void Protractor::parseOptions(int argc, char* args[])
 
         m_tiltSensor = new TiltSensor(m_imu);
     }    
+    else if (doLogIMU)
+    {
+        LogIMU* logImu = new LogIMU();
+        
+        m_imu = logImu;
+        m_tiltSensor = new TiltSensor(m_imu);
+    }
     else
         exit(-1);
 }
