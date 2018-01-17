@@ -38,6 +38,8 @@ public:
 
 public:
     void getAcceleration(double* ax, double *ay, double* az);
+    void getGyroscope(double* gx, double *gy, double* gz);
+    void getMagnetometer(double* mx, double *my, double* mz);
 
 protected:
     double getRand(double min, double max);
