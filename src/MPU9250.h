@@ -27,6 +27,9 @@
 #ifndef MPU9250_H
 #define MPU9250_H
 
+#include "AbstractIMU.h"
+
+
 #define AK8963_ADDRESS   0x0C
 #define WHO_AM_I_AK8963  0x00 // should return 0x48
 #define INFO             0x01
@@ -197,7 +200,7 @@ enum mag_Scale{
 
 
 
-class MPU9250
+class MPU9250 : public AbstractIMU
 {
     // AbstractIMU
 public:

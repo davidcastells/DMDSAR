@@ -85,6 +85,7 @@ void Protractor::printUsage()
     printf("   --emulate-IMU    Emulate a 9 DOF IMU\n");
     printf("   --log-IMU        Use the WEAN HALL dataset as input\n");
     printf("                    (expected in ./data/wean_wide_interesting.imu.log)\n");
+    printf("   --MPU9250        Use the MPU9250 IMU\n");
 }
 
 void Protractor::parseOptions(int argc, char* args[])

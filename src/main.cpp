@@ -27,9 +27,6 @@ int main(int argc, char *argv[])
     
     // initialize resources, if needed
     // Q_INIT_RESOURCE(resfile);
-
-    printf("Entering App\n");
-    fflush(stdout);
     
     QApplication app(argc, argv);
 
