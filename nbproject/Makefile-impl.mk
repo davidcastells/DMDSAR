@@ -27,11 +27,11 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 PROJECTNAME=DMDSAR
 
 # Active Configuration
-DEFAULTCONF=Debug
+DEFAULTCONF=MSYS2-Debug
 CONF=${DEFAULTCONF}
 
 # All Configurations
-ALLCONFS=Debug Release 
+ALLCONFS=MSYS2-Debug MSYS2-Release BeagleBone-Debug BeagleBone-Release 
 
 
 # build
