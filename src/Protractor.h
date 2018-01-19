@@ -30,7 +30,7 @@
 
 #include "IMUEmulatorControl.h"
 #include "AbstractIMU.h"
-#include "TiltSensor.h"
+#include "AbstractTiltSensor.h"
 #include "PerformanceLap.h"
 
 class Protractor : public QWidget
@@ -49,20 +49,24 @@ protected:
     void paintEvent(QPaintEvent *event);
     
 private:
-    IMUEmulatorControl imuEmulator;
-    AbstractIMU*         m_imu;
-    TiltSensor*          m_tiltSensor;
+    IMUEmulatorControl      imuEmulator;
+    AbstractIMU*            m_imu;
+    AbstractTiltSensor*     m_tiltSensor;
         
     double roll;		// lateral (wing) rotation
     double pitch;		// front/back rotation
-    double yaw;		// steady plane rotation
+    double yaw;                 // steady plane rotation
     
     
     // options
-    bool    doHelp;
-    bool    doEmulateIMU;
-    bool    doLogIMU;
-    bool    doMPU9250;
+    bool doHelp;
+    bool doEmulateIMU;
+    bool doLogIMU;
+    bool doMPU9250;
+    bool doMaf;
+    bool doMahony;
+    bool doMadgwick;
+    bool doVerbose;
     
     PerformanceLap m_lastEulerAnglesReport;
 };
