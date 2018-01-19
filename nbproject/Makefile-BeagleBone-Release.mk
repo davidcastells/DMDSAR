@@ -19,7 +19,7 @@ CCC=g++
 CXX=g++
 FC=gfortran
 AS=as
-QMAKE=x86_64-w64-mingw32-qmake-qt5
+QMAKE=qmake
 
 # Macros
 CND_PLATFORM=BeagleBone-Linux
