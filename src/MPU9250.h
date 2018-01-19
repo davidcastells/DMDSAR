@@ -179,11 +179,12 @@
 
 
 //list of scales for accelerometer, gyroscope, and magnetometer
-enum acc_Scale {
-	acc_scale_2g = 0,
-	acc_scale_4g,
-	acc_scale_8g,
-	acc_scale_16g
+enum acc_Scale 
+{
+    acc_scale_2g = 0,
+    acc_scale_4g,
+    acc_scale_8g,
+    acc_scale_16g
 };
 
 enum gyro_Scale{

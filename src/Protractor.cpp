@@ -120,7 +120,7 @@ void Protractor::parseOptions(int argc, char* args[])
                 doEmulateIMU = true;
             else if (strcmp(sImuType, "log") == 0)
                 doLogIMU = true;
-            else if (strcpy(sImuType, "MPU9250") == 0)
+            else if (strcmp(sImuType, "MPU9250") == 0)
                 doMPU9250 = true;
             else
             {

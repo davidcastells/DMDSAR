@@ -90,18 +90,18 @@ unsigned char mag_mode = 0x02; //2 = 8hz, 6 = 100hz for continuous data read
 
 MPU9250::MPU9250()
 {
-	get_sensor_resolution();
-	mpu9250_detect();
-	mpu9250_selftest();
-	mpu9250_calibration();
-	mpu9250_initialization();
-	mag_initialization();
-	mag_calibration();
+    get_sensor_resolution();
+    mpu9250_detect();
+    mpu9250_selftest();
+    mpu9250_calibration();
+    mpu9250_initialization();
+    mag_initialization();
+    mag_calibration();
 
-	//debug_mode(); working in progress
+    //debug_mode(); working in progress
 
 
-	//read_pressure();
+    //read_pressure();
 }
 
 void MPU9250::mpu9250_detect()
@@ -261,118 +261,116 @@ void MPU9250::mpu9250_selftest()
 
 void MPU9250::mpu9250_calibration()
 {
+    cout<<"MPU-9250 calibration..."<<endl;
+    unsigned char data_buffer[12] = {0};
+    unsigned char gyrosensitivity = 131;
+    unsigned char accelsensitivity = 16384;
 
-	cout<<"MPU-9250 calibration..."<<endl;
-	unsigned char data_buffer[12] = {0};
-	unsigned char gyrosensitivity = 131;
-	unsigned char accelsensitivity = 16384;
+    gyroBias[0] = 0;
+    accBias[0] = 0;
+    gyroBias[1] = 0;
+    accBias[1] = 0;
+    gyroBias[2] = 0;
+    accBias[2] = 0;
 
+    short fifo_count= 0;
+    short packet_count = 0;
 
-	gyroBias[0] = 0;
-	accBias[0] = 0;
-	gyroBias[1] = 0;
-	accBias[1] = 0;
-	gyroBias[2] = 0;
-	accBias[2] = 0;
+    //reset the device
+    write_register(PWR_MGMT_1, 0x80);
+    usleep(100000);
 
-	short fifo_count= 0;
-	short packet_count = 0;
+    //get stable time source; auto select clock source to be PPL gyrpscope reference if ready
+    //else use the internal oscillator, bits 2:0 = 001
+    write_register(PWR_MGMT_1, 0X01);
+    write_register(PWR_MGMT_2, 0X00);
+    usleep(200000);
 
-	//reset the device
-	write_register(PWR_MGMT_1, 0x80);
-	usleep(100000);
+    //configure device for bias calculation
+    write_register(INT_ENABLE, 0X00);
+    write_register(FIFO_EN, 0X00);
+    write_register(PWR_MGMT_1, 0X00);
+    write_register(I2C_MST_CTRL, 0X00);
+    write_register(USER_CTRL, 0X00);
+    write_register(USER_CTRL, 0X00);
+    usleep(50000);
 
-	//get stable time source; auto select clock source to be PPL gyrpscope reference if ready
-	//else use the internal oscillator, bits 2:0 = 001
-	write_register(PWR_MGMT_1, 0X01);
-	write_register(PWR_MGMT_2, 0X00);
-	usleep(200000);
+    //configure gyro and accelerometer for bias calculation
+    write_register(CONFIG, 0X01);		//set low pass filter to 188 Hz
+    write_register(SMPLRT_DIV, 0X00);	//set sample rate to 1 kHz
+    write_register(GYRO_CONFIG, 0X00);	//set gyro full scale to 250 degrees per second
+    write_register(ACCEL_CONFIG, 0X00);     //set accelerometer full scale to 2g,
 
-	//configure device for bias calculation
-	write_register(INT_ENABLE, 0X00);
-	write_register(FIFO_EN, 0X00);
-	write_register(PWR_MGMT_1, 0X00);
-	write_register(I2C_MST_CTRL, 0X00);
-	write_register(USER_CTRL, 0X00);
-	write_register(USER_CTRL, 0X00);
-	usleep(50000);
+    write_register(USER_CTRL, 0x40);//enable FIFO
+    write_register(FIFO_EN, 0x78); //enable gyro and accelerometer sensors for FIFO
+    usleep(40000); //accumulate 40 samples in 40 milliseconds = 480 bytes
 
-	//configure gyro and accelerometer for bias calculation
-	write_register(CONFIG, 0X01);		//set low pass filter to 188 Hz
-	write_register(SMPLRT_DIV, 0X00);	//set sample rate to 1 kHz
-	write_register(GYRO_CONFIG, 0X00);	//set gyro full scale to 250 degrees per second
-	write_register(ACCEL_CONFIG, 0X00); //set accelerometer full scale to 2g,
+    write_register(FIFO_EN, 0x00);
+    data_buffer[0]= read_register(FIFO_COUNTH);
+    data_buffer[1]= read_register(FIFO_COUNTL);
+    fifo_count = bit_conversion(data_buffer[0], data_buffer[1]);
+    packet_count = fifo_count/12; //how many sets of full gyro and accelerometer data for averaging
 
-	write_register(USER_CTRL, 0x40);//enable FIFO
-	write_register(FIFO_EN, 0x78); //enable gyro and accelerometer sensors for FIFO
-	usleep(40000); //accumulate 40 samples in 40 milliseconds = 480 bytes
-
-	write_register(FIFO_EN, 0x00);
-	data_buffer[0]= read_register(FIFO_COUNTH);
-	data_buffer[1]= read_register(FIFO_COUNTL);
-	fifo_count = bit_conversion(data_buffer[0], data_buffer[1]);
-	packet_count = fifo_count/12; //how many sets of full gyro and accelerometer data for averaging
-
-	cout<<">>the FIFO_count is "<<fifo_count<<endl;
-	cout<<">>the packet_cout is "<<packet_count<<endl;
+    cout<<">>the FIFO_count is "<<fifo_count<<endl;
+    cout<<">>the packet_cout is "<<packet_count<<endl;
 
 }
 
 void MPU9250::mpu9250_initialization()
 {
-	cout<<"Now...initializing the device..."<<endl;
-	write_register(PWR_MGMT_1, 0x00);//clear sleep mode, enable all sensors
-	usleep(100000);//wait for register reset
+    cout<<"Now...initializing the device..."<<endl;
+    write_register(PWR_MGMT_1, 0x00);//clear sleep mode, enable all sensors
+    usleep(100000);//wait for register reset
 
-	write_register(PWR_MGMT_1, 0x01);//auto select clock source to be PLL gyroscope reference if ready else
-	usleep(200000);
+    write_register(PWR_MGMT_1, 0x01);//auto select clock source to be PLL gyroscope reference if ready else
+    usleep(200000);
 
-	//configure gyro and thermometer
-	//disable FSYNC and set thermometer and gyro bandwidth to 41 and 42 Hz, respectively;
-	//minimum delay time for this setting is 5.9ms, which means sensor fusion update rates cannot be higher than 1/0.0059 = 170 Hz
-	//DLPF_CFG = bits 2:0 = 011; this limits the sample rate to 1000 Hz for both
-	//with the MPU9250, it is possible to get gyro sample rates of 32 kHz, 8kHz, or 1kHz
-	write_register(CONFIG, 0x03);
+    //configure gyro and thermometer
+    //disable FSYNC and set thermometer and gyro bandwidth to 41 and 42 Hz, respectively;
+    //minimum delay time for this setting is 5.9ms, which means sensor fusion update rates cannot be higher than 1/0.0059 = 170 Hz
+    //DLPF_CFG = bits 2:0 = 011; this limits the sample rate to 1000 Hz for both
+    //with the MPU9250, it is possible to get gyro sample rates of 32 kHz, 8kHz, or 1kHz
+    write_register(CONFIG, 0x03);
 
-	//set sample rate = gyroscope output rate/(1+SMPLR_DIV)
-	write_register(SMPLRT_DIV, 0x04);//use a 200 Hz rate
+    //set sample rate = gyroscope output rate/(1+SMPLR_DIV)
+    write_register(SMPLRT_DIV, 0x04);//use a 200 Hz rate
 
-	//set gyroscope full scale range
-	//range selects FS_SEL and AFS_SEL are 0-3, so 2-bit values are left-shifted into positions 4:3
-	unsigned char temp = read_register(GYRO_CONFIG);
+    //set gyroscope full scale range
+    //range selects FS_SEL and AFS_SEL are 0-3, so 2-bit values are left-shifted into positions 4:3
+    unsigned char temp = read_register(GYRO_CONFIG);
 
-	write_register(GYRO_CONFIG, temp & ~0x02);//clear Fchoice bits [1:0]
-	write_register(GYRO_CONFIG, temp & ~0x18);//clear AFS bits [4:3]
-	write_register(GYRO_CONFIG, temp | gyro_scale <<3); //set full scale range for the gyro
+    write_register(GYRO_CONFIG, temp & ~0x02);//clear Fchoice bits [1:0]
+    write_register(GYRO_CONFIG, temp & ~0x18);//clear AFS bits [4:3]
+    write_register(GYRO_CONFIG, temp | gyro_scale <<3); //set full scale range for the gyro
 
-	//set accelerometer full-scale range configuration
-	temp = read_register(ACCEL_CONFIG);
+    //set accelerometer full-scale range configuration
+    temp = read_register(ACCEL_CONFIG);
 
-	write_register(ACCEL_CONFIG, temp & ~0x18); //clear AFS bits [4:3]
-	write_register(ACCEL_CONFIG, temp | acc_scale <<3);//set full scale range for the accelerometer
+    write_register(ACCEL_CONFIG, temp & ~0x18); //clear AFS bits [4:3]
+    write_register(ACCEL_CONFIG, temp | acc_scale <<3);//set full scale range for the accelerometer
 
-	//set accelerometer sample rate configuration
-	//it is possible to get a 4 kHz sample rate from the accelerometer by choosing 1 for
-	//accel_fchoice_b bit [3]; in this case the bandwidth is 1.13 kHz
-	temp = read_register(ACCEL_CONFIG2);
-	write_register(ACCEL_CONFIG2, temp & ~0x0F); //clear accel_fchoice_b (bit 3) and A_DLPFG (bits [2:0])
-	write_register(ACCEL_CONFIG2, temp | 0x03); //set accelerometer rate for 1 kHz and bandwidth to 41 Hz
+    //set accelerometer sample rate configuration
+    //it is possible to get a 4 kHz sample rate from the accelerometer by choosing 1 for
+    //accel_fchoice_b bit [3]; in this case the bandwidth is 1.13 kHz
+    temp = read_register(ACCEL_CONFIG2);
+    write_register(ACCEL_CONFIG2, temp & ~0x0F); //clear accel_fchoice_b (bit 3) and A_DLPFG (bits [2:0])
+    write_register(ACCEL_CONFIG2, temp | 0x03); //set accelerometer rate for 1 kHz and bandwidth to 41 Hz
 
-	//The accelerometer, gyro, and thermometer are set to 1 kHz sample rates,
-	//but all these rates are further reduced by a factor of 5 to 200 Hz because of the SMPLRT_DIV setting
+    //The accelerometer, gyro, and thermometer are set to 1 kHz sample rates,
+    //but all these rates are further reduced by a factor of 5 to 200 Hz because of the SMPLRT_DIV setting
 
-	//configure Interrupts and Bypass Enable
-	//set interrupt pin active high, push-pull, hold interrupt pin level high until interrupt cleared,
-	//clear on read of INT_STATUS, and eable I2C_BYPASS_EN
+    //configure Interrupts and Bypass Enable
+    //set interrupt pin active high, push-pull, hold interrupt pin level high until interrupt cleared,
+    //clear on read of INT_STATUS, and eable I2C_BYPASS_EN
 
-	cout<<"Disabling the device's I2c master feature..."<<endl;
-	write_register(INT_PIN_CFG, 0x22);
-	write_register(INT_ENABLE, 0x01); //enable data ready bit0 interrupt
+    cout<<"Disabling the device's I2c master feature..."<<endl;
+    write_register(INT_PIN_CFG, 0x22);
+    write_register(INT_ENABLE, 0x01); //enable data ready bit0 interrupt
 
-	if (read_register(INT_PIN_CFG) != 0x22)
-		cout<<">>Failed!"<<endl<<"\n";
-	else
-		cout<<">>Success!"<<endl<<"\n";
+    if (read_register(INT_PIN_CFG) != 0x22)
+            cout<<">>Failed!"<<endl<<"\n";
+    else
+            cout<<">>Success!"<<endl<<"\n";
 
 }
 
@@ -380,84 +378,84 @@ void MPU9250::mpu9250_initialization()
 
 void MPU9250::mag_initialization()
 {
-	//open the i2c adapter
-	cout<< "Detecting the magnetometer device...."<<endl;
+    //open the i2c adapter
+    cout<< "Detecting the magnetometer device...."<<endl;
 
-	int file;
-	unsigned char data_buffer[3];
+    int file;
+    unsigned char data_buffer[3];
 
-	//open the adapter file and check if the adapter exit in the system
-	if ((file = open("/dev/i2c-2", O_RDWR))<0)
-	{
-		cout<<"The i2c bus does not exit!"<<endl;
-	}
+    //open the adapter file and check if the adapter exit in the system
+    if ((file = open("/dev/i2c-2", O_RDWR))<0)
+    {
+            cout<<"The i2c bus does not exit!"<<endl;
+    }
 
-	//does not check if the device is attached to this address
-	if (ioctl(file, I2C_SLAVE, AK8963_ADDRESS)<0)
-	{
-		cout<<"I2C Slave address does not exit!"<<endl;
-	}
+    //does not check if the device is attached to this address
+    if (ioctl(file, I2C_SLAVE, AK8963_ADDRESS)<0)
+    {
+            cout<<"I2C Slave address does not exit!"<<endl;
+    }
 
-	mag_file = file;
+    mag_file = file;
 
-	//it should return 0x48
-	while (read_mag_register(WHO_AM_I_AK8963) != 72 )
-	{
-		cout<<"The device failed...check connections!"<<endl;
-		cout<<"Press Enter to continue..."<<endl;
-		getchar();
-	}
+    //it should return 0x48
+    while (read_mag_register(WHO_AM_I_AK8963) != 72 )
+    {
+            cout<<"The device failed...check connections!"<<endl;
+            cout<<"Press Enter to continue..."<<endl;
+            getchar();
+    }
 
-	cout<<">>The magnetometer connection is established!..."<<endl<<"\n";
-	cout<<">>Now...initializing the device..."<<endl;
+    cout<<">>The magnetometer connection is established!..."<<endl<<"\n";
+    cout<<">>Now...initializing the device..."<<endl;
 
-	//initialize and read sensitivity adjustment value
-	cout<<"Powering down magnetometer..."<<endl;
-	write_mag_register(AK8963_CNTL, 0x00);
-	if (read_mag_register(AK8963_CNTL) == 0x00)
-		cout<<">>Success!"<<endl;
-	else
-		cout<<">>Failed!"<<endl;
-	usleep(10000);
-
-
-	cout<<"Entering FUSE ROM access mode...reading calibration values"<<endl;
-	write_mag_register(AK8963_CNTL, 0x0F);
-	if (read_mag_register(AK8963_CNTL) == 0x0F)
-		cout<<">>Success!"<<endl;
-	else
-		cout<<">>Failed!"<<endl;
-	char the_address[1] = {AK8963_ASAX};//required for write function argument type
-	write(mag_file, the_address, 1);
-	read(mag_file,data_buffer, 3);
-	mag_sensitivity_values[0]= (double)((data_buffer[0] - 128)/256. +1.);//equation from data sheet
-	mag_sensitivity_values[1]= (double)((data_buffer[1] - 128)/256. +1.);
-	mag_sensitivity_values[2]= (double)((data_buffer[2] - 128)/256. +1.);
-
-	cout<<"the x value is "<<mag_sensitivity_values[0]<<endl;
-	cout<<"the y value is "<<mag_sensitivity_values[1]<<endl;
-	cout<<"the z value is "<<mag_sensitivity_values[2]<<"\n"<<endl;
-
-	cout<<"Powering down magnetometer..."<<endl;
-	write_mag_register(AK8963_CNTL, 0x00);
-	if (read_mag_register(AK8963_CNTL) == 0x00)
-		cout<<">>Success!"<<endl;
-	else
-		cout<<">>Failed!"<<endl;
-	usleep(10000);
+    //initialize and read sensitivity adjustment value
+    cout<<"Powering down magnetometer..."<<endl;
+    write_mag_register(AK8963_CNTL, 0x00);
+    if (read_mag_register(AK8963_CNTL) == 0x00)
+            cout<<">>Success!"<<endl;
+    else
+            cout<<">>Failed!"<<endl;
+    usleep(10000);
 
 
-	cout<<"Setting magnetometer data scale and sample rate..."<<endl;
-	write_mag_register(AK8963_CNTL, mag_scale<<4|mag_mode);
-	if (read_mag_register(AK8963_CNTL) == 0x12)
-		cout<<">>Success!.."<<endl;
-	else
-		cout<<">>Failed!..."<<endl;
-	usleep(10000);
+    cout<<"Entering FUSE ROM access mode...reading calibration values"<<endl;
+    write_mag_register(AK8963_CNTL, 0x0F);
+    if (read_mag_register(AK8963_CNTL) == 0x0F)
+            cout<<">>Success!"<<endl;
+    else
+            cout<<">>Failed!"<<endl;
+    char the_address[1] = {AK8963_ASAX};//required for write function argument type
+    write(mag_file, the_address, 1);
+    read(mag_file,data_buffer, 3);
+    mag_sensitivity_values[0]= (double)((data_buffer[0] - 128)/256. +1.);//equation from data sheet
+    mag_sensitivity_values[1]= (double)((data_buffer[1] - 128)/256. +1.);
+    mag_sensitivity_values[2]= (double)((data_buffer[2] - 128)/256. +1.);
 
-	cout<<"The mag_resolution is "<<mag_resolution<<" uT/unit"<<endl;
-	cout<<"The acc_resolution is "<<acc_resolution<<" g/unit"<<endl;
-	cout<<"The gyro_resolution is "<<gyro_resolution<<" dps/unit"<<endl;
+    cout<<"the x value is "<<mag_sensitivity_values[0]<<endl;
+    cout<<"the y value is "<<mag_sensitivity_values[1]<<endl;
+    cout<<"the z value is "<<mag_sensitivity_values[2]<<"\n"<<endl;
+
+    cout<<"Powering down magnetometer..."<<endl;
+    write_mag_register(AK8963_CNTL, 0x00);
+    if (read_mag_register(AK8963_CNTL) == 0x00)
+            cout<<">>Success!"<<endl;
+    else
+            cout<<">>Failed!"<<endl;
+    usleep(10000);
+
+
+    cout<<"Setting magnetometer data scale and sample rate..."<<endl;
+    write_mag_register(AK8963_CNTL, mag_scale<<4|mag_mode);
+    if (read_mag_register(AK8963_CNTL) == 0x12)
+            cout<<">>Success!.."<<endl;
+    else
+            cout<<">>Failed!..."<<endl;
+    usleep(10000);
+
+    cout<<"The mag_resolution is "<<mag_resolution<<" uT/unit"<<endl;
+    cout<<"The acc_resolution is "<<acc_resolution<<" g/unit"<<endl;
+    cout<<"The gyro_resolution is "<<gyro_resolution<<" dps/unit"<<endl;
 
 }
 
@@ -577,12 +575,21 @@ void MPU9250::read_raw_magnetometer()
 
 }
 
+
+/**
+ * We convert milligause to gause
+ * @param mx
+ * @param my
+ * @param mz
+ */
 void MPU9250::getMagnetometer(double* mx, double *my, double* mz) 
 {
     read_raw_magnetometer();
-    *mx = magnetometer[0];
-    *my = magnetometer[1];
-    *mz = magnetometer[2];
+    *mx = magnetometer[0]/ 1000.0;  
+    *my = magnetometer[1]/ 1000.0;
+    *mz = magnetometer[2]/ 1000.0;
+    
+    
 }
 
 /**
@@ -636,27 +643,35 @@ void MPU9250::read_raw_mpu_data()//read all data at once to reduce communication
 
 }
 
+/**
+ * We convert mg to m/s^2
+ * @param ax
+ * @param ay
+ * @param az
+ */
 void MPU9250::getAcceleration(double* ax, double *ay, double* az)
 {
     read_raw_mpu_data();
-    *ax = acceleration[0]; 
-    *ay = acceleration[1];
-    *az = acceleration[2];
+    *ax = acceleration[0] / 1000.0; 
+    *ay = acceleration[1] / 1000.0;
+    *az = acceleration[2] / 1000.0;
 }
     
 /**
- * 
+ * We convert degress to radians
  * @param gx
  * @param gy
  * @param gz
  */
 void MPU9250::getGyroscope(double* gx, double *gy, double* gz)
 {   
+    static const double PI=3.141592;
+    
     // @todo We assume NOW that getGyroscope will be always called 
     // after getAcceleration, so we avoid calling read_raw_mpu_data
-    *gx = gyroscope[0];
-    *gy = gyroscope[1];
-    *gz = gyroscope[2];
+    *gx = gyroscope[0] * PI / 180.0;
+    *gy = gyroscope[1] * PI / 180.0;
+    *gz = gyroscope[2] * PI / 180.0;
 }
 
 void MPU9250::get_actual_mpu_data(double data[7], double* pitch, double* roll)
