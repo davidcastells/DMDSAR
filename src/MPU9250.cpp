@@ -112,7 +112,7 @@ void MPU9250::mpu9250_detect()
 	int file;
 
 	//open the adapter file and check if the adapter exit in the system
-	if ((file = open("/dev/i2c-1", O_RDWR))<0)
+	if ((file = open("/dev/i2c-2", O_RDWR))<0)
 	{
 		cout<<"The i2c bus does not exit!"<<endl;
 	}
@@ -387,7 +387,7 @@ void MPU9250::mag_initialization()
 	unsigned char data_buffer[3];
 
 	//open the adapter file and check if the adapter exit in the system
-	if ((file = open("/dev/i2c-1", O_RDWR))<0)
+	if ((file = open("/dev/i2c-2", O_RDWR))<0)
 	{
 		cout<<"The i2c bus does not exit!"<<endl;
 	}
