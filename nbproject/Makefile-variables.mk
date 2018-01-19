@@ -6,22 +6,38 @@
 CND_BASEDIR=`pwd`
 CND_BUILDDIR=build
 CND_DISTDIR=dist
-# Debug configuration
-CND_PLATFORM_Debug=MSYS2-Windows
-CND_ARTIFACT_DIR_Debug=dist/Debug/MSYS2-Windows
-CND_ARTIFACT_NAME_Debug=DMDSAR
-CND_ARTIFACT_PATH_Debug=dist/Debug/MSYS2-Windows/DMDSAR
-CND_PACKAGE_DIR_Debug=dist/Debug/MSYS2-Windows/package
-CND_PACKAGE_NAME_Debug=DMDSAR.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/MSYS2-Windows/package/DMDSAR.tar
-# Release configuration
-CND_PLATFORM_Release=Cygwin-Windows
-CND_ARTIFACT_DIR_Release=dist/Release/Cygwin-Windows
-CND_ARTIFACT_NAME_Release=DMDSAR
-CND_ARTIFACT_PATH_Release=dist/Release/Cygwin-Windows/DMDSAR
-CND_PACKAGE_DIR_Release=dist/Release/Cygwin-Windows/package
-CND_PACKAGE_NAME_Release=DMDSAR.tar
-CND_PACKAGE_PATH_Release=dist/Release/Cygwin-Windows/package/DMDSAR.tar
+# MSYS2-Debug configuration
+CND_PLATFORM_MSYS2-Debug=MSYS2-Windows
+CND_ARTIFACT_DIR_MSYS2-Debug=dist/MSYS2-Debug/MSYS2-Windows
+CND_ARTIFACT_NAME_MSYS2-Debug=DMDSAR
+CND_ARTIFACT_PATH_MSYS2-Debug=dist/MSYS2-Debug/MSYS2-Windows/DMDSAR
+CND_PACKAGE_DIR_MSYS2-Debug=dist/MSYS2-Debug/MSYS2-Windows/package
+CND_PACKAGE_NAME_MSYS2-Debug=DMDSAR.tar
+CND_PACKAGE_PATH_MSYS2-Debug=dist/MSYS2-Debug/MSYS2-Windows/package/DMDSAR.tar
+# MSYS2-Release configuration
+CND_PLATFORM_MSYS2-Release=Cygwin-Windows
+CND_ARTIFACT_DIR_MSYS2-Release=dist/MSYS2-Release/Cygwin-Windows
+CND_ARTIFACT_NAME_MSYS2-Release=DMDSAR
+CND_ARTIFACT_PATH_MSYS2-Release=dist/MSYS2-Release/Cygwin-Windows/DMDSAR
+CND_PACKAGE_DIR_MSYS2-Release=dist/MSYS2-Release/Cygwin-Windows/package
+CND_PACKAGE_NAME_MSYS2-Release=DMDSAR.tar
+CND_PACKAGE_PATH_MSYS2-Release=dist/MSYS2-Release/Cygwin-Windows/package/DMDSAR.tar
+# BeagleBone-Debug configuration
+CND_PLATFORM_BeagleBone-Debug=BeagleBone-Linux
+CND_ARTIFACT_DIR_BeagleBone-Debug=dist/BeagleBone-Debug/BeagleBone-Linux
+CND_ARTIFACT_NAME_BeagleBone-Debug=DMDSAR
+CND_ARTIFACT_PATH_BeagleBone-Debug=dist/BeagleBone-Debug/BeagleBone-Linux/DMDSAR
+CND_PACKAGE_DIR_BeagleBone-Debug=dist/BeagleBone-Debug/BeagleBone-Linux/package
+CND_PACKAGE_NAME_BeagleBone-Debug=DMDSAR.tar
+CND_PACKAGE_PATH_BeagleBone-Debug=dist/BeagleBone-Debug/BeagleBone-Linux/package/DMDSAR.tar
+# BeagleBone-Release configuration
+CND_PLATFORM_BeagleBone-Release=BeagleBone-Linux
+CND_ARTIFACT_DIR_BeagleBone-Release=dist/BeagleBone-Release/BeagleBone-Linux
+CND_ARTIFACT_NAME_BeagleBone-Release=DMDSAR
+CND_ARTIFACT_PATH_BeagleBone-Release=dist/BeagleBone-Release/BeagleBone-Linux/DMDSAR
+CND_PACKAGE_DIR_BeagleBone-Release=dist/BeagleBone-Release/BeagleBone-Linux/package
+CND_PACKAGE_NAME_BeagleBone-Release=DMDSAR.tar
+CND_PACKAGE_PATH_BeagleBone-Release=dist/BeagleBone-Release/BeagleBone-Linux/package/DMDSAR.tar
 #
 # include compiler specific variables
 #
