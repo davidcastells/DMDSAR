@@ -14,11 +14,19 @@
             </sourceRootList>
             <confList>
                 <confElem>
-                    <name>Debug</name>
+                    <name>MSYS2-Debug</name>
                     <type>4</type>
                 </confElem>
                 <confElem>
-                    <name>Release</name>
+                    <name>MSYS2-Release</name>
+                    <type>4</type>
+                </confElem>
+                <confElem>
+                    <name>BeagleBone-Debug</name>
+                    <type>4</type>
+                </confElem>
+                <confElem>
+                    <name>BeagleBone-Release</name>
                     <type>4</type>
                 </confElem>
             </confList>
