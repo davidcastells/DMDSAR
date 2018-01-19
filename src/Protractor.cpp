@@ -26,6 +26,8 @@
 #include "Emulated9DOFIMU.h"
 #include "LogIMU.h"
 #include "MPU9250.h"
+#include "MovingAverageTiltSensor.h"
+#include "MahonyTiltSensor.h"
 
 #include <math.h>
 
@@ -82,10 +84,13 @@ void Protractor::printUsage()
     printf("Usage: DMDSAR.exe [options]\n");
     printf("[options]\n");
     printf("   --help           Show this message\n" );
-    printf("   --emulate-IMU    Emulate a 9 DOF IMU\n");
-    printf("   --log-IMU        Use the WEAN HALL dataset as input\n");
+    printf("   --imu=[emulate|log|MPU9250]  \n");
+    printf("          emulate - emulates a 9 DOF IMU\n");
+    printf("          log - uses the WEAN HALL dataset as input\n");
     printf("                    (expected in ./data/wean_wide_interesting.imu.log)\n");
-    printf("   --MPU9250        Use the MPU9250 IMU\n");
+    printf("          MPU9250 - uses the MPU9250 IMU\n");
+    printf("   --tilt=[maf|mahony|madgwick]");
+    
 }
 
 void Protractor::parseOptions(int argc, char* args[])
@@ -96,22 +101,56 @@ void Protractor::parseOptions(int argc, char* args[])
     doEmulateIMU = false;
     doLogIMU = false;
     doMPU9250 = false;
+    doMaf = false;
+    doMahony = false;
+    doMadgwick = false;
+    doVerbose = false;
     
     for (int i=0; i < argc; i++)
     {
         if (strcmp(args[i], "--help") == 0)
             doHelp = true;
-        else if (strcmp(args[i], "--emulate-IMU") == 0)
-            doEmulateIMU = true;
-        else if (strcmp(args[i], "--log-IMU") == 0)
-            doLogIMU = true;
-        else if (strcmp(args[i], "--MPU9250") == 0)
-            doMPU9250 = true;
+        else if (strncmp(args[i], "--imu=", 6) == 0)
+        {
+            char* sImuType = &args[i][6];
+            
+            printf("Selecting IMU %s...\n", sImuType);
+            
+            if (strcmp(sImuType, "emulate") == 0)
+                doEmulateIMU = true;
+            else if (strcmp(sImuType, "log") == 0)
+                doLogIMU = true;
+            else if (strcpy(sImuType, "MPU9250") == 0)
+                doMPU9250 = true;
+            else
+            {
+                printf("unsupported IMU\n");
+                exit(-1);
+            }
+        }
+        else if (strncmp(args[i], "--tilt=", 7) == 0)
+        {
+            char* sTiltType = &args[i][7];
+            printf("Selecting Tilt Sensor %s...\n", sTiltType);
+            
+            if (strcmp(sTiltType, "maf") == 0)
+                doMaf = true;
+            else if (strcmp(sTiltType, "mahony") == 0)
+                doMahony = true;
+            else if (strcmp(sTiltType, "madgwick") == 0)
+                doMadgwick = true;
+        }
+        else if (strcmp(args[i], "--verbose") == 0)
+        {
+            doVerbose = true;
+        }
+
     }
     
     if (doHelp)
     {
         printUsage();
+        exit(0);
     }
     
     if (doEmulateIMU)
@@ -124,26 +163,48 @@ void Protractor::parseOptions(int argc, char* args[])
         imuEmulator.setModal(false);
         imuEmulator.init();
         imuEmulator.setVisible(true);
-
-
-        m_tiltSensor = new TiltSensor(m_imu);
-    }    
+    }
     else if (doLogIMU)
     {
         LogIMU* logImu = new LogIMU();
         
         m_imu = logImu;
-        m_tiltSensor = new TiltSensor(m_imu);
     }
     else if (doMPU9250)
     {
         MPU9250* mpu = new MPU9250();
         
         m_imu = mpu;
-        m_tiltSensor = new TiltSensor(m_imu);
     }
     else
+    {
+        printf("IMU not selected\n");
         exit(-1);
+    }
+
+    if (doMaf)
+    {
+        m_tiltSensor = new MovingAverageTiltSensor(m_imu);
+    }
+    else if (doMahony)
+    {
+        m_tiltSensor = new MahonyTiltSensor(m_imu);
+    }
+    else if (doMadgwick)
+    {
+        printf("Madgwick not implemented yet\n");
+        exit(-1);
+    }
+    else
+    {
+        printf("Tilt Sensor not selected\n");
+        exit(-1);
+    }
+
+
+    if (doVerbose)
+        m_tiltSensor->verbosity = true;
+    
 }
 
 void Protractor::updateCompass()
