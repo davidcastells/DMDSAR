@@ -652,9 +652,10 @@ void MPU9250::read_raw_mpu_data()//read all data at once to reduce communication
 void MPU9250::getAcceleration(double* ax, double *ay, double* az)
 {
     read_raw_mpu_data();
-    *ax = acceleration[0] / 1000.0; 
-    *ay = acceleration[1] / 1000.0;
-    *az = acceleration[2] / 1000.0;
+    // @todo make good computation
+    *ax = acceleration[0] 9.8 / 1600.0; 
+    *ay = acceleration[1] 9.8 / 1600.0;
+    *az = acceleration[2] 9.8 / 1600.0;
 }
     
 /**
@@ -669,9 +670,9 @@ void MPU9250::getGyroscope(double* gx, double *gy, double* gz)
     
     // @todo We assume NOW that getGyroscope will be always called 
     // after getAcceleration, so we avoid calling read_raw_mpu_data
-    *gx = gyroscope[0] * PI / 180.0;
-    *gy = gyroscope[1] * PI / 180.0;
-    *gz = gyroscope[2] * PI / 180.0;
+    *gx = gyroscope[0] * PI / 1800;
+    *gy = gyroscope[1] * PI / 1800;
+    *gz = gyroscope[2] * PI / 1800;
 }
 
 void MPU9250::get_actual_mpu_data(double data[7], double* pitch, double* roll)
