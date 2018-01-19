@@ -15,13 +15,13 @@ CND_PACKAGE_DIR_MSYS2-Debug=dist/MSYS2-Debug/MSYS2-Windows/package
 CND_PACKAGE_NAME_MSYS2-Debug=DMDSAR.tar
 CND_PACKAGE_PATH_MSYS2-Debug=dist/MSYS2-Debug/MSYS2-Windows/package/DMDSAR.tar
 # MSYS2-Release configuration
-CND_PLATFORM_MSYS2-Release=Cygwin-Windows
-CND_ARTIFACT_DIR_MSYS2-Release=dist/MSYS2-Release/Cygwin-Windows
+CND_PLATFORM_MSYS2-Release=MSYS2-Windows
+CND_ARTIFACT_DIR_MSYS2-Release=dist/MSYS2-Release/MSYS2-Windows
 CND_ARTIFACT_NAME_MSYS2-Release=DMDSAR
-CND_ARTIFACT_PATH_MSYS2-Release=dist/MSYS2-Release/Cygwin-Windows/DMDSAR
-CND_PACKAGE_DIR_MSYS2-Release=dist/MSYS2-Release/Cygwin-Windows/package
+CND_ARTIFACT_PATH_MSYS2-Release=dist/MSYS2-Release/MSYS2-Windows/DMDSAR
+CND_PACKAGE_DIR_MSYS2-Release=dist/MSYS2-Release/MSYS2-Windows/package
 CND_PACKAGE_NAME_MSYS2-Release=DMDSAR.tar
-CND_PACKAGE_PATH_MSYS2-Release=dist/MSYS2-Release/Cygwin-Windows/package/DMDSAR.tar
+CND_PACKAGE_PATH_MSYS2-Release=dist/MSYS2-Release/MSYS2-Windows/package/DMDSAR.tar
 # BeagleBone-Debug configuration
 CND_PLATFORM_BeagleBone-Debug=BeagleBone-Linux
 CND_ARTIFACT_DIR_BeagleBone-Debug=dist/BeagleBone-Debug/BeagleBone-Linux
