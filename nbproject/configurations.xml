@@ -5,13 +5,15 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>src/AbstractIMU.h</itemPath>
+      <itemPath>src/AbstractTiltSensor.h</itemPath>
       <itemPath>src/Emulated9DOFIMU.h</itemPath>
       <itemPath>src/IMUEmulatorControl.h</itemPath>
       <itemPath>src/LogIMU.h</itemPath>
       <itemPath>src/MPU9250.h</itemPath>
+      <itemPath>src/MahonyTiltSensor.h</itemPath>
+      <itemPath>src/MovingAverageTiltSensor.h</itemPath>
       <itemPath>src/PerformanceLap.h</itemPath>
       <itemPath>src/Protractor.h</itemPath>
-      <itemPath>src/TiltSensor.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -22,13 +24,15 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>src/AbstractIMU.cpp</itemPath>
+      <itemPath>src/AbstractTiltSensor.cpp</itemPath>
       <itemPath>src/Emulated9DOFIMU.cpp</itemPath>
       <itemPath>src/IMUEmulatorControl.cpp</itemPath>
       <itemPath>src/LogIMU.cpp</itemPath>
       <itemPath>src/MPU9250.cpp</itemPath>
+      <itemPath>src/MahonyTiltSensor.cpp</itemPath>
+      <itemPath>src/MovingAverageTiltSensor.cpp</itemPath>
       <itemPath>src/PerformanceLap.cpp</itemPath>
       <itemPath>src/Protractor.cpp</itemPath>
-      <itemPath>src/TiltSensor.cpp</itemPath>
       <itemPath>src/main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -59,9 +63,33 @@
       </qt>
       <compileType>
       </compileType>
+      <item path="src/MahonyTiltSensor.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/MahonyTiltSensor.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/MovingAverageTiltSensor.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/MovingAverageTiltSensor.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="src/AbstractIMU.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/AbstractIMU.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/AbstractTiltSensor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/AbstractTiltSensor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Emulated9DOFIMU.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -88,10 +116,6 @@
       <item path="src/Protractor.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Protractor.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/TiltSensor.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/TiltSensor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -120,9 +144,33 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="src/MahonyTiltSensor.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/MahonyTiltSensor.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/MovingAverageTiltSensor.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/MovingAverageTiltSensor.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="src/AbstractIMU.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/AbstractIMU.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/AbstractTiltSensor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/AbstractTiltSensor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Emulated9DOFIMU.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -150,10 +198,6 @@
       </item>
       <item path="src/Protractor.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/TiltSensor.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/TiltSensor.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
@@ -168,9 +212,33 @@
       </qt>
       <compileType>
       </compileType>
+      <item path="src/MahonyTiltSensor.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/MahonyTiltSensor.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/MovingAverageTiltSensor.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/MovingAverageTiltSensor.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="src/AbstractIMU.cpp" ex="false" tool="1" flavor2="9">
       </item>
       <item path="src/AbstractIMU.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/AbstractTiltSensor.cpp" ex="false" tool="1" flavor2="9">
+      </item>
+      <item path="src/AbstractTiltSensor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Emulated9DOFIMU.cpp" ex="false" tool="1" flavor2="9">
       </item>
@@ -197,10 +265,6 @@
       <item path="src/Protractor.cpp" ex="false" tool="1" flavor2="9">
       </item>
       <item path="src/Protractor.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/TiltSensor.cpp" ex="false" tool="1" flavor2="9">
-      </item>
-      <item path="src/TiltSensor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="9">
       </item>
@@ -229,9 +293,33 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="src/MahonyTiltSensor.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/MahonyTiltSensor.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/MovingAverageTiltSensor.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/MovingAverageTiltSensor.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="src/AbstractIMU.cpp" ex="false" tool="1" flavor2="9">
       </item>
       <item path="src/AbstractIMU.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/AbstractTiltSensor.cpp" ex="false" tool="1" flavor2="9">
+      </item>
+      <item path="src/AbstractTiltSensor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Emulated9DOFIMU.cpp" ex="false" tool="1" flavor2="9">
       </item>
@@ -258,10 +346,6 @@
       <item path="src/Protractor.cpp" ex="false" tool="1" flavor2="9">
       </item>
       <item path="src/Protractor.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/TiltSensor.cpp" ex="false" tool="1" flavor2="9">
-      </item>
-      <item path="src/TiltSensor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="9">
       </item>
