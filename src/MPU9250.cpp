@@ -653,9 +653,9 @@ void MPU9250::getAcceleration(double* ax, double *ay, double* az)
 {
     read_raw_mpu_data();
     // @todo make good computation
-    *ax = acceleration[0] 9.8 / 1600.0; 
-    *ay = acceleration[1] 9.8 / 1600.0;
-    *az = acceleration[2] 9.8 / 1600.0;
+    *ax = acceleration[0] * 9.8 / 1600.0; 
+    *ay = acceleration[1] * 9.8 / 1600.0;
+    *az = acceleration[2] * 9.8 / 1600.0;
 }
     
 /**
