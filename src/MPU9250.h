@@ -22,6 +22,10 @@
  * Created on January 17, 2018, 3:55 PM
  * based on
  * https://raw.githubusercontent.com/Junle-Lu/BeagleUUV/master/IMU/MPU9250.h
+ * 
+ * check the MPU9250 datasheet docs
+ * https://www.invensense.com/wp-content/uploads/2015/02/PS-MPU-9250A-01-v1.1.pdf
+ * https://cdn.sparkfun.com/assets/learn_tutorials/5/5/0/MPU-9250-Register-Map.pdf
  */
 
 #ifndef MPU9250_H
@@ -178,6 +182,53 @@
 #define ZA_OFFSET_L      0x7E
 
 
+// PWR_MGMT_1 register bits
+#define PWR_MGMT_1_HRESET           0x80
+#define PWR_MGMT_1_SLEEP            0x40
+#define PWR_MGMT_1_CYCLE            0x20
+#define PWR_MGMT_1_GYRO_STANDBY     0x10
+#define PWR_MGMT_1_PDTAT            0x08
+#define PWR_MGMT_1_CLKSEL_MASK      (0x04|0x02|0x01)
+#define PWR_MGMT_1_CLKSEL_INTERNAL_20MHZ      0
+#define PWR_MGMT_1_CLKSEL_AUTOSELECT1         1
+#define PWR_MGMT_1_CLKSEL_AUTOSELECT2         2
+#define PWR_MGMT_1_CLKSEL_AUTOSELECT3         3
+#define PWR_MGMT_1_CLKSEL_AUTOSELECT4         4
+#define PWR_MGMT_1_CLKSEL_AUTOSELECT5         5
+#define PWR_MGMT_1_CLKSEL_AUTOSELECT6         6
+#define PWR_MGMT_1_CLKSEL_STOP                7
+
+// PWR_MGMT_2 register bits
+//#define PWR_MGMT_2_RESERVED         0x80
+//#define PWR_MGMT_2_RESERVED         0x40
+#define PWR_MGMT_2_DIS_XA           0x20
+#define PWR_MGMT_2_DIS_YA           0x10
+#define PWR_MGMT_2_DIS_ZA           0x08
+#define PWR_MGMT_2_DIS_XG           0x04
+#define PWR_MGMT_2_DIS_YG           0x02
+#define PWR_MGMT_2_DIS_ZG           0x01
+#define PWR_MGMT_2_ENABLE_ALL       0x00           
+
+
+// GYRO_CONFIG register bits
+#define GYRO_CONFIG_XSELFTEST       0x80
+#define GYRO_CONFIG_YSELFTEST       0x40
+#define GYRO_CONFIG_ZSELFTEST       0x20
+#define GYRO_CONFIG_FULL_SCALE_1    0x10
+#define GYRO_CONFIG_FULL_SCALE_0    0x08
+//#define GYRO_CONFIG_RESERVED        0x04
+#define GYRO_CONFIG_BYPASS_LPF1     0x02
+#define GYRO_CONFIG_BYPASS_LPF0     0x01
+#define GYRO_CONFIG_FS_250_DPS      0x00
+#define GYRO_CONFIG_FS_500_DPS      GYRO_CONFIG_FULL_SCALE_0
+#define GYRO_CONFIG_FS_1000_DPS     GYRO_CONFIG_FULL_SCALE_1
+#define GYRO_CONFIG_FS_2000_DPS     (GYRO_CONFIG_FULL_SCALE_1|GYRO_CONFIG_FULL_SCALE_0)
+
+#define ACCELEROMETER_FULL_SCALE    32768.0
+#define GYROSCOPE_FULL_SCALE        32768.0
+#define MAGNETOMETER_FULL_SCALE     32768.0
+#define MAGNETOMETER_SCALE_14        8190.0
+
 //list of scales for accelerometer, gyroscope, and magnetometer
 enum acc_Scale 
 {
@@ -187,83 +238,90 @@ enum acc_Scale
     acc_scale_16g
 };
 
-enum gyro_Scale{
-	gyro_scale_250 = 0,
-	gyro_scale_500,
-	gyro_scale_1000,
-	gyro_scale_2000
-};
+// @deprecated use GYRO_CONFIG_FS_... constants
+//enum gyro_Scale
+//{
+//    gyro_scale_250 = 0,
+//    gyro_scale_500,
+//    gyro_scale_1000,
+//    gyro_scale_2000
+//};
 
-enum mag_Scale{
+enum mag_Scale
+{
 	mag_scale_14bits = 0,
 	mag_scale_16bits,
 };
 
 
 
+/**
+ * MPU9250 IMU connected by I2C to the host
+ * Derived from AbstractIMU 
+ */
 class MPU9250 : public AbstractIMU
 {
-    // AbstractIMU
+// overides from AbstractIMU
 public:
     void getAcceleration(double* ax, double *ay, double* az);
     void getGyroscope(double* gx, double *gy, double* gz);
     void getMagnetometer(double* mx, double *my, double* mz); 
     
-	private:
+private:
 
-		int device_file;
-		int mag_file;
-		double mag_sensitivity_values[3];
-		double mag_resolution, acc_resolution, gyro_resolution;//milliGause, g, degree
-		double gyroBias[3];
-		double accBias[3];
-		double magBias[3];
-		double selftest_result[6];
+    int device_file;
+    int mag_file;
+    double mag_sensitivity_values[3];
+    double mag_resolution;  //milliGause
+    double acc_resolution;  // g
+    double gyro_resolution; // degrees per second
+    double gyroBias[3];
+    double accBias[3];
+    double magBias[3];
+    double selftest_result[6];
 
-		//store the value in x,y,z order
-		double acceleration[3];
-		double gyroscope[3];
-		double magnetometer[3];
-		double temperature;
-		double pressure;
-		//double pitch, roll, yaw;
+    //store the value in x,y,z order
+    double acceleration[3];
+    double gyroscope[3];
+    double magnetometer[3];
+    double temperature;
+    double pressure;
+    //double pitch, roll, yaw;
 
-	public:
-		MPU9250();
+    // Constructor / Destructor
+public:
+    MPU9250();
+    virtual ~MPU9250();
 
-		//device configurations
-		void mpu9250_detect();//detect the presence MPU9250 IC, and begin i2c protocol
-		void mpu9250_initialization();//set registers' value as register value will reset when the device is powered up
-		void mpu9250_selftest();
-		void mpu9250_calibration();//perform sensor test. and calibrate accordingl
+private:
+    void detect();  //detect the presence MPU9250 IC, and begin i2c protocol
+    
+public:
+    //device configurations
+    void mpu9250_initialization();//set registers' value as register value will reset when the device is powered up
+    void mpu9250_selftest();
+    void mpu9250_calibration();//perform sensor test. and calibrate accordingl
 
-		void mag_initialization();//detect and set registers' value in magnetometer
-		void mag_calibration();
+    void mag_initialization();//detect and set registers' value in magnetometer
+    void mag_calibration();
 
-		void get_sensor_resolution();//only need to do it once with the pre-defined values
+    void get_sensor_resolution();//only need to do it once with the pre-defined values
 
-		//raw data reading
-		void read_raw_magnetometer();
-		void get_actual_mag_data(double data[3], double* yaw);//0>x,1>y.2>z order
-		void read_raw_mpu_data();
-		void get_actual_mpu_data(double data[7], double* pitch, double* roll);//acceleration, x,y,z; Gyro x,y,z; temperature; 0->6
+    //raw data reading
+    void read_raw_magnetometer();
+    void read_raw_mpu_data();
+    
+    //void read_pressure();
 
-		//void read_pressure();
+    //register access and conversion
+    short bit_conversion(unsigned char msb, unsigned char lsb);
+    void write_register(char register_address, char data);
+    int read_register(char register_address);
+    void write_mag_register(char register_address, char data);
+    int read_mag_register(char register_address);
 
-		//register access and conversion
-		short bit_conversion(unsigned char msb, unsigned char lsb);
-		void write_register(char register_address, char data);
-		int read_register(char register_address);
-		void write_mag_register(char register_address, char data);
-		int read_mag_register(char register_address);
+    
 
-		void display_binary(int temp);
-		void debug_mode();
-		char debug_mode_menu();
-		void MPU9250_debug();
-		void mag_debug();
-
-		virtual ~MPU9250();
 };
 
 #endif /* MPU9250_H */
