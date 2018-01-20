@@ -20,6 +20,13 @@
  * Author: dcr
  * 
  * Created on January 19, 2018, 4:08 PM
+ * 
+ * Based on the paper
+ * Mahony, Robert, Tarek Hamel, and Jean-Michel Pflimlin. 
+ * "Nonlinear complementary filters on the special orthogonal group." 
+ * IEEE Transactions on automatic control 53, no. 5 (2008): 1203-1218.
+ * 
+ * https://hal.archives-ouvertes.fr/hal-00488376/file/2007_Mahony.etal_TAC-06-396_v3.pdf
  */
 
 #include "MahonyTiltSensor.h"
@@ -41,11 +48,14 @@ MahonyTiltSensor::MahonyTiltSensor(AbstractIMU* imu)
     integralFBz = 0.0;
 	
     // @todo arbitrary values, I do not know how to set them ?
-    Ki = 0.0;
-    Kp = 0.5;
+    // Panama guys sugest 0.1 and 1
+    Ki = 0.1;
+    Kp = 1;
     //anglesComputed = 0;
     
     m_lap.start();
+    
+    verbosity = false;
 }
 
 
