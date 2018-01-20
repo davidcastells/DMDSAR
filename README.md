@@ -28,11 +28,19 @@ make -f Makefile CONF=Debug QMAKE=/C/msys64/mingw64/bin/qmake.exe
 
 From the MSYS2 console
 ```
-dist/Debug/MSYS2-Windows/DMDSAR.exe --emulate-IMU
+dist/Debug/MSYS2-Windows/DMDSAR.exe --imu=MPU9250 --tilt=mahony 
 ```
 
 You can use the following parameters
 
 --help          shows some help
---emulate-IMU   uses an emulated IMU, useful for debugging
---log-IMU       uses prerecorded data from WEAN HALL dataset 
+--imu=<IMU type>   can be one of [log|emulated|MPU9250]
+--tilt=<Tilt Detector>  can be one of [maf|mahony|madgwick]
+--verbose       for verbosity
+
+
+We get this result
+
+[![Projector Yaw correction with IMU](http://img.youtube.com/vi/xYjtbdZ7I30/0.jpg)](http://www.youtube.com/watch?v=xYjtbdZ7I30)
+
+
