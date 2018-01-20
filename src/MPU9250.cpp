@@ -84,28 +84,28 @@ using namespace std;
 
 //set all sensor scale values
 unsigned char acc_scale = acc_scale_2g;
-unsigned char gyro_scale = gyro_scale_250;
+unsigned char gyro_scale = GYRO_CONFIG_FS_250_DPS;
 unsigned mag_scale = mag_scale_16bits;
 unsigned char mag_mode = 0x02; //2 = 8hz, 6 = 100hz for continuous data read
 
 MPU9250::MPU9250()
 {
     get_sensor_resolution();
-    mpu9250_detect();
-    mpu9250_selftest();
+    detect();
+    // mpu9250_selftest(); no use
     mpu9250_calibration();
     mpu9250_initialization();
     mag_initialization();
     mag_calibration();
-
-    //debug_mode(); working in progress
-
-
-    //read_pressure();
 }
 
-void MPU9250::mpu9250_detect()
+/**
+ * 
+ */
+void MPU9250::detect()
 {
+    // @todo replace this hardcoded detection by a scan on the /dev/i2c-* buses
+    
 	//open the i2c adapter
 	cout<< "Detecting the MPU-9250 device..."<<endl;
 
@@ -136,6 +136,10 @@ void MPU9250::mpu9250_detect()
 	cout<<">>The MPU-9250 connection is established!...."<<endl<<"\n";
 }
 
+/**
+ * @todo average is wrongly computed by Junle Lu. 
+ * I should review what is he doing for self test
+ */
 void MPU9250::mpu9250_selftest()
 {
 	cout<<"MPU9250 self-testing..."<<endl;
@@ -147,14 +151,14 @@ void MPU9250::mpu9250_selftest()
 	double factory_trim[6];
 	unsigned char self_test_code[6];
 
-	write_register(SMPLRT_DIV, 0x00); 			//set gyro sample rate 1 kHz
-	write_register(CONFIG, 0x02);	  			//set gyro sample rate 1 kHz and DLPF to 92 Hz
-	write_register(GYRO_CONFIG, 1<<full_scale); //set full scale range for the gyro to 250 dps
+	write_register(SMPLRT_DIV, 0x00); 		//set gyro sample rate 1 kHz
+	write_register(CONFIG, 0x02);	  		//set gyro sample rate 1 kHz and DLPF to 92 Hz
+	write_register(GYRO_CONFIG, 1<<full_scale);     //set full scale range for the gyro to 250 dps
 	write_register(ACCEL_CONFIG2, 0x02);		//set accelerometer rate to 1 kHz and bandwidth to 92 Hz
-	write_register(ACCEL_CONFIG, 1<<full_scale);//set full scale range for the accelerometer to 2g
+	write_register(ACCEL_CONFIG, 1<<full_scale);    //set full scale range for the accelerometer to 2g
 
 
-	cout<<">>reading and calculating accelerometer and gyrocope average values with 200 samples"<<endl;
+	cout<<">>reading and calculating accelerometer and gyroscope average values with 200 samples"<<endl;
 	for (int i = 0; i < 200; i++)
 	{
 		read_raw_mpu_data();
@@ -259,12 +263,14 @@ void MPU9250::mpu9250_selftest()
 
 }
 
+/**
+ * Calibration
+ * @todo I do not understand what calibration is done here
+ */
 void MPU9250::mpu9250_calibration()
 {
     cout<<"MPU-9250 calibration..."<<endl;
     unsigned char data_buffer[12] = {0};
-    unsigned char gyrosensitivity = 131;
-    unsigned char accelsensitivity = 16384;
 
     gyroBias[0] = 0;
     accBias[0] = 0;
@@ -277,19 +283,19 @@ void MPU9250::mpu9250_calibration()
     short packet_count = 0;
 
     //reset the device
-    write_register(PWR_MGMT_1, 0x80);
+    write_register(PWR_MGMT_1, PWR_MGMT_1_HRESET);
     usleep(100000);
 
     //get stable time source; auto select clock source to be PPL gyrpscope reference if ready
     //else use the internal oscillator, bits 2:0 = 001
-    write_register(PWR_MGMT_1, 0X01);
-    write_register(PWR_MGMT_2, 0X00);
+    write_register(PWR_MGMT_1, PWR_MGMT_1_CLKSEL_AUTOSELECT1);
+    write_register(PWR_MGMT_2, PWR_MGMT_2_ENABLE_ALL);
     usleep(200000);
 
     //configure device for bias calculation
     write_register(INT_ENABLE, 0X00);
     write_register(FIFO_EN, 0X00);
-    write_register(PWR_MGMT_1, 0X00);
+    write_register(PWR_MGMT_1, PWR_MGMT_1_CLKSEL_INTERNAL_20MHZ);
     write_register(I2C_MST_CTRL, 0X00);
     write_register(USER_CTRL, 0X00);
     write_register(USER_CTRL, 0X00);
@@ -298,7 +304,7 @@ void MPU9250::mpu9250_calibration()
     //configure gyro and accelerometer for bias calculation
     write_register(CONFIG, 0X01);		//set low pass filter to 188 Hz
     write_register(SMPLRT_DIV, 0X00);	//set sample rate to 1 kHz
-    write_register(GYRO_CONFIG, 0X00);	//set gyro full scale to 250 degrees per second
+    write_register(GYRO_CONFIG, GYRO_CONFIG_FS_250_DPS);	//set gyro full scale to 250 degrees per second
     write_register(ACCEL_CONFIG, 0X00);     //set accelerometer full scale to 2g,
 
     write_register(USER_CTRL, 0x40);//enable FIFO
@@ -319,10 +325,10 @@ void MPU9250::mpu9250_calibration()
 void MPU9250::mpu9250_initialization()
 {
     cout<<"Now...initializing the device..."<<endl;
-    write_register(PWR_MGMT_1, 0x00);//clear sleep mode, enable all sensors
+    write_register(PWR_MGMT_1, PWR_MGMT_1_CLKSEL_INTERNAL_20MHZ);//clear sleep mode, enable all sensors
     usleep(100000);//wait for register reset
 
-    write_register(PWR_MGMT_1, 0x01);//auto select clock source to be PLL gyroscope reference if ready else
+    write_register(PWR_MGMT_1, PWR_MGMT_1_CLKSEL_AUTOSELECT1);//auto select clock source to be PLL gyroscope reference if ready else
     usleep(200000);
 
     //configure gyro and thermometer
@@ -341,7 +347,7 @@ void MPU9250::mpu9250_initialization()
 
     write_register(GYRO_CONFIG, temp & ~0x02);//clear Fchoice bits [1:0]
     write_register(GYRO_CONFIG, temp & ~0x18);//clear AFS bits [4:3]
-    write_register(GYRO_CONFIG, temp | gyro_scale <<3); //set full scale range for the gyro
+    write_register(GYRO_CONFIG, temp | gyro_scale ); //set full scale range for the gyro
 
     //set accelerometer full-scale range configuration
     temp = read_register(ACCEL_CONFIG);
@@ -375,7 +381,9 @@ void MPU9250::mpu9250_initialization()
 }
 
 
-
+/**
+ * 
+ */
 void MPU9250::mag_initialization()
 {
     //open the i2c adapter
@@ -459,18 +467,21 @@ void MPU9250::mag_initialization()
 
 }
 
+/**
+ * @todo review how calibration is done
+ */
 void MPU9250::mag_calibration()
 {
 	cout<<"Magnetometer calibration: wave device in a figure 8 until it is done!"<<endl;
-	usleep(1000000);
-	cout<<"3!"<<endl;
-	usleep(1000000);
-	cout<<"2!"<<endl;
-	usleep(1000000);
-	cout<<"1!"<<endl;
-	usleep(1000000);
-	cout<<"Begin!"<<endl;
-	usleep(1000000);
+//	usleep(1000000);
+//	cout<<"3!"<<endl;
+//	usleep(1000000);
+//	cout<<"2!"<<endl;
+//	usleep(1000000);
+//	cout<<"1!"<<endl;
+//	usleep(1000000);
+//	cout<<"Begin!"<<endl;
+//	usleep(1000000);
 
 	int sample_count = 64;
 	double temp_max[3] = {0,0,0};
@@ -510,44 +521,47 @@ void MPU9250::mag_calibration()
 
 void MPU9250::get_sensor_resolution()
 {
-	switch(mag_scale)
-	{
-		case mag_scale_14bits:
-			mag_resolution = 10.*4912./8190.;
-			break;
-		case mag_scale_16bits:
-			mag_resolution = 10.*4912./32760.;
-			break;
-	}
+    switch(mag_scale)
+    {
+        case mag_scale_14bits:
+            mag_resolution = 10.*4912/MAGNETOMETER_SCALE_14;
+            break;
+        case mag_scale_16bits:
+            mag_resolution = 10.*4912/MAGNETOMETER_FULL_SCALE;
+            break;
+    }
 
-	switch(acc_scale)
-	{
-		case acc_scale_2g:
-			acc_resolution = 2./32768.;
-			break;
-		case acc_scale_4g:
-			acc_resolution = 4./32768.;
-			break;
-		case acc_scale_8g:
-			acc_resolution = 8./32768.;
-			break;
-		case acc_scale_16g:
-			acc_resolution = 16./32768;
-			break;
-	}
+    switch(acc_scale)
+    {
+        case acc_scale_2g:
+            acc_resolution = 2./ACCELEROMETER_FULL_SCALE.;
+            break;
+        case acc_scale_4g:
+            acc_resolution = 4./ACCELEROMETER_FULL_SCALE.;
+            break;
+        case acc_scale_8g:
+            acc_resolution = 8./ACCELEROMETER_FULL_SCALE.;
+            break;
+        case acc_scale_16g:
+            acc_resolution = 16./ACCELEROMETER_FULL_SCALE;
+            break;
+    }
 
-	switch (gyro_scale)
-	{
-		case gyro_scale_250:
-			gyro_resolution = 250./32768.;
-			break;
-		case gyro_scale_500:
-			gyro_resolution = 500./32768.;
-			break;
-		case gyro_scale_1000:
-			gyro_resolution = 1000./32768.;
-			break;
-	}
+    switch (gyro_scale)
+    {
+        case GYRO_CONFIG_FS_250_DPS:
+            gyro_resolution = 250/GYROSCOPE_FULL_SCALE;
+            break;
+        case GYRO_CONFIG_FS_500_DPS:
+            gyro_resolution = 500/GYROSCOPE_FULL_SCALE;
+            break;
+        case GYRO_CONFIG_FS_1000_DPS:
+            gyro_resolution = 1000/GYROSCOPE_FULL_SCALE;
+            break;
+        case GYRO_CONFIG_FS_2000_DPS:
+            gyro_resolution = 2000/GYROSCOPE_FULL_SCALE;
+            break;
+    }
 }
 
 void MPU9250::read_raw_magnetometer()
@@ -585,42 +599,13 @@ void MPU9250::read_raw_magnetometer()
 void MPU9250::getMagnetometer(double* mx, double *my, double* mz) 
 {
     read_raw_magnetometer();
-    *mx = magnetometer[0]/ 1000.0;  
-    *my = magnetometer[1]/ 1000.0;
-    *mz = magnetometer[2]/ 1000.0;
     
+    *mx = (double)((magnetometer[0]*mag_resolution*mag_sensitivity_values[0]) - magBias[0]); 
+    *my = (double)((magnetometer[1]*mag_resolution*mag_sensitivity_values[1]) - magBias[1]);;
+    *mz = (double)((magnetometer[2]*mag_resolution*mag_sensitivity_values[2]) - magBias[2]);;
     
 }
 
-/**
- * @deprecated This should be part of the TiltSensor, not the IMU itself
- * @param data
- * @param yaw
- */
-void MPU9250::get_actual_mag_data(double data[3], double* yaw)
-{
-	read_raw_magnetometer();
-	/*cout<<"The mag resolution is "<<mag_resolution<<endl;
-	cout<<"The x sensitivity value:"<<mag_sensitivity_values[0]<<endl;
-	cout<<"The y sensitivity value:"<<mag_sensitivity_values[1]<<endl;
-	cout<<"The z sensitivity value:"<<mag_sensitivity_values[2]<<endl;
-*/
-	magnetometer[0] = (double)((magnetometer[0]*mag_resolution*mag_sensitivity_values[0]) - magBias[0]);
-	magnetometer[1] = (double)((magnetometer[1]*mag_resolution*mag_sensitivity_values[1]) - magBias[1]);
-	magnetometer[2] = (double)((magnetometer[2]*mag_resolution*mag_sensitivity_values[2]) - magBias[2]);
-
-	/*cout<< "The magnetometer x is "<<magnetometer[0]<<endl;
-	cout<< "The magnetometer y is "<<magnetometer[1]<<endl;
-	cout<< "The magnetometer z is "<<magnetometer[2]<<endl;
-*/
-	data[0] = magnetometer[0];
-	data[1] = magnetometer[1];
-	data[2] = magnetometer[2];
-	*yaw  = atan2(magnetometer[1],magnetometer[0])*180/M_PI;
-	if (*yaw < 0)
-		*yaw += 360;
-
-}
 
 void MPU9250::read_raw_mpu_data()//read all data at once to reduce communication overhead
 {
@@ -651,18 +636,22 @@ void MPU9250::read_raw_mpu_data()//read all data at once to reduce communication
  */
 void MPU9250::getAcceleration(double* ax, double *ay, double* az)
 {
-    read_raw_mpu_data();
+    if(read_register(INT_STATUS) & 0X01)//Check if data is ready
+    {
+        read_raw_mpu_data();
+    }
+
     // @todo make good computation
-    *ax = acceleration[0] * 9.8 / 1600.0; 
-    *ay = acceleration[1] * 9.8 / 1600.0;
-    *az = acceleration[2] * 9.8 / 1600.0;
+    *ax = acceleration[0] * acc_resolution - accBias[0]; 
+    *ay = acceleration[1] * acc_resolution - accBias[1]; 
+    *az = acceleration[2] * acc_resolution - accBias[2]; 
 }
     
 /**
  * We convert degress to radians
- * @param gx
- * @param gy
- * @param gz
+ * @param gx rotation speed in rad/s
+ * @param gy rotation speed in rad/s
+ * @param gz rotation speed in rad/s
  */
 void MPU9250::getGyroscope(double* gx, double *gy, double* gz)
 {   
@@ -670,47 +659,16 @@ void MPU9250::getGyroscope(double* gx, double *gy, double* gz)
     
     // @todo We assume NOW that getGyroscope will be always called 
     // after getAcceleration, so we avoid calling read_raw_mpu_data
-    *gx = gyroscope[0] * PI / 1800;
-    *gy = gyroscope[1] * PI / 1800;
-    *gz = gyroscope[2] * PI / 1800;
+    double dps_x = gyroscope[0] * gyro_resolution - gyroBias[0];
+    double dps_y = gyroscope[1] * gyro_resolution - gyroBias[1];
+    double dps_z = gyroscope[2] * gyro_resolution - gyroBias[2];
+    
+    *gx = dps_x * PI / 180.0;
+    *gy = dps_y * PI / 180.0;
+    *gz = dps_z * PI / 180.0;
 }
 
-void MPU9250::get_actual_mpu_data(double data[7], double* pitch, double* roll)
-{
-	if(read_register(INT_STATUS) & 0X01)//Check if data is ready
-	{
-		read_raw_mpu_data();
-		acceleration[0] = (double) acceleration[0] * acc_resolution - accBias[0];
-		acceleration[1] = (double) acceleration[1] * acc_resolution - accBias[1];
-		acceleration[2] = (double) acceleration[2] * acc_resolution - accBias[2];
-		gyroscope[0]= (double)gyroscope[0] * gyro_resolution - gyroBias[0];
-		gyroscope[1]= (double)gyroscope[1] * gyro_resolution - gyroBias[1];
-		gyroscope[2]= (double)gyroscope[2] * gyro_resolution - gyroBias[2];
-		temperature = ((double)temperature)/333.87 +21.0;
-		data[0] = acceleration [0];
-		data[1] = acceleration [1];
-		data[2] = acceleration [2];
-		data[3] = gyroscope [0];
-		data[4] = gyroscope [1];
-		data[5] = gyroscope [2];
-		data[6] = temperature;
 
-		*pitch = (180 * atan(acceleration[0]/sqrt(pow(acceleration[1],2) + pow(acceleration[2],2)))/M_PI);
-		*roll = (180 * atan(acceleration[1]/sqrt(pow(acceleration[0],2) + pow(acceleration[2],2)))/M_PI);
-
-	}
-
-
-	/*
-	cout<< "The acceleration x is "<<acceleration[0]<<endl;
-	cout<< "The acceleration y is "<<acceleration[1]<<endl;
-	cout<< "The acceleration z is "<<acceleration[2]<<endl;
-	cout<< "The temperature is "<<temperature<<endl;
-	cout<< "The gyroscope x is "<<gyroscope[0]<<endl;
-	cout<< "The gyroscope y is "<<gyroscope[1]<<endl;
-	cout<< "The gyroscope z is "<<gyroscope[2]<<endl;
-	cout<<endl;*/
-}
 
 
 /* Pressure Sensor Currently not working
@@ -810,89 +768,12 @@ void MPU9250::write_mag_register(char register_address, char data)
 //combine two unsigned 8-bits to a signed 16-bit integer
 short MPU9250::bit_conversion(unsigned char msb, unsigned char lsb)
 {
-	short temp = msb;
-	temp = (temp<<8)|(lsb&0xff);
-	return temp;
+    short temp = msb;
+    temp = (temp<<8)|(lsb&0xff);
+    return temp;
 }
 
-void MPU9250::display_binary(int temp)
-{
-	while (temp)
-	{
-		if (temp & 1)
-			cout<<'1';
-		else
-			cout<<'0';
-		temp >>= 1;
-	}
 
-	if (temp == 0)
-		cout<<'0';
-}
-
-void MPU9250::debug_mode()
-{
-	int user_input;
-	cout<<"Entering the debug mode..."<<endl;
-
-	switch (user_input = debug_mode_menu())
-	{
-            case '1':
-                    MPU9250_debug();
-            case '2':
-                    mag_debug();
-            default:
-                    break;
-	}
-}
-
-char MPU9250::debug_mode_menu()
-{
-	char user_input;
-	cout<<"Which device would you want to access?"<<"\n"<<"1->MPU9250"<<endl<<"2->magnetometer"<<endl;
-	while ((user_input != 'q')&&(user_input != 'Q'))
-	{
-
-		user_input = getchar();
-		if ((user_input == '1') || (user_input == '2'))
-			break;
-
-		if((user_input != '\n')&&(user_input != 'q')&&(user_input != 'Q')&&(user_input != '1') && (user_input != '2'))
-			cout<<"Try again..."<<endl;
-	}
-
-	return user_input;
-}
-
-void MPU9250::MPU9250_debug()
-{
-	char user_input;
-	int temp;
-
-	while(1)
-	{
-		cout<<"Enter the register value in hex..."<<endl;
-		user_input = getchar();
-
-		while (user_input != '\n')
-		{
-			temp = read_register(user_input);
-
-			cout<<endl;
-			cout<<"The current value in register "<<(int)user_input<<'(';
-			display_binary((int)user_input);
-			cout<<") is ";
-			display_binary(temp);
-			cout<<"."<<endl;
-
-		}
-
-	}
-}
-
-void MPU9250::mag_debug()
-{
-}
 
 MPU9250::~MPU9250()
 {
