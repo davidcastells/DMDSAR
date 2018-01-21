@@ -27,6 +27,9 @@
  * IEEE Transactions on automatic control 53, no. 5 (2008): 1203-1218.
  * 
  * https://hal.archives-ouvertes.fr/hal-00488376/file/2007_Mahony.etal_TAC-06-396_v3.pdf
+ * 
+ * Code inspired in
+ * https://github.com/adafruit/Adafruit_AHRS/blob/master/Mahony.cpp
  */
 
 #include "MahonyTiltSensor.h"
