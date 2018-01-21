@@ -28,6 +28,7 @@
 #include "MPU9250.h"
 #include "MovingAverageTiltSensor.h"
 #include "MahonyTiltSensor.h"
+#include "MadgwickTiltSensor.h"
 
 #include <math.h>
 
@@ -192,8 +193,7 @@ void Protractor::parseOptions(int argc, char* args[])
     }
     else if (doMadgwick)
     {
-        printf("Madgwick not implemented yet\n");
-        exit(-1);
+        m_tiltSensor = new MadgwickTiltSensor(m_imu);
     }
     else
     {
