@@ -24,18 +24,29 @@ So (by now) I am opening a MSYS2 console and compile manually by
 make -f Makefile CONF=Debug QMAKE=/C/msys64/mingw64/bin/qmake.exe
 ```
 
+In BeagleBone I use a remote SSH terminal and build similarly
+
 ## Executing the code
 
+In Windows I do not have any IMU available, so I use the emulator.
 From the MSYS2 console
 ```
-dist/Debug/MSYS2-Windows/DMDSAR.exe --imu=MPU9250 --tilt=mahony 
+dist/Debug/MSYS2-Windows/DMDSAR.exe --imu=emulated --tilt=maf
+```
+
+From a BeagleBone SSH console
+```
+dist/Debug/BeagleBone-Linux/DMDSAR.exe --imu=MPU9250 --tilt=mahony 
 ```
 
 You can use the following parameters
 
 --help          shows some help
+
 --imu=<IMU type>   can be one of [log|emulated|MPU9250]
+
 --tilt=<Tilt Detector>  can be one of [maf|mahony|madgwick]
+
 --verbose       for verbosity
 
 
