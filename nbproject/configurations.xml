@@ -10,6 +10,7 @@
       <itemPath>src/IMUEmulatorControl.h</itemPath>
       <itemPath>src/LogIMU.h</itemPath>
       <itemPath>src/MPU9250.h</itemPath>
+      <itemPath>src/MadgwickTiltSensor.h</itemPath>
       <itemPath>src/MahonyTiltSensor.h</itemPath>
       <itemPath>src/MovingAverageTiltSensor.h</itemPath>
       <itemPath>src/PerformanceLap.h</itemPath>
@@ -29,6 +30,7 @@
       <itemPath>src/IMUEmulatorControl.cpp</itemPath>
       <itemPath>src/LogIMU.cpp</itemPath>
       <itemPath>src/MPU9250.cpp</itemPath>
+      <itemPath>src/MadgwickTiltSensor.cpp</itemPath>
       <itemPath>src/MahonyTiltSensor.cpp</itemPath>
       <itemPath>src/MovingAverageTiltSensor.cpp</itemPath>
       <itemPath>src/PerformanceLap.cpp</itemPath>
@@ -63,22 +65,12 @@
       </qt>
       <compileType>
       </compileType>
-      <item path="src/MahonyTiltSensor.cpp"
+      <item path="src/MadgwickTiltSensor.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="src/MahonyTiltSensor.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="src/MovingAverageTiltSensor.cpp"
-            ex="false"
-            tool="1"
-            flavor2="0">
-      </item>
-      <item path="src/MovingAverageTiltSensor.h"
+      <item path="src/MadgwickTiltSensor.h"
             ex="false"
             tool="3"
             flavor2="0">
@@ -108,6 +100,14 @@
       <item path="src/MPU9250.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/MPU9250.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/MahonyTiltSensor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MahonyTiltSensor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/MovingAverageTiltSensor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MovingAverageTiltSensor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/PerformanceLap.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -122,7 +122,7 @@
     </conf>
     <conf name="MSYS2-Release" type="4">
       <toolsSet>
-        <compilerSet>default</compilerSet>
+        <compilerSet>MSYS2|MinGW</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
@@ -144,22 +144,12 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="src/MahonyTiltSensor.cpp"
+      <item path="src/MadgwickTiltSensor.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="src/MahonyTiltSensor.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="src/MovingAverageTiltSensor.cpp"
-            ex="false"
-            tool="1"
-            flavor2="0">
-      </item>
-      <item path="src/MovingAverageTiltSensor.h"
+      <item path="src/MadgwickTiltSensor.h"
             ex="false"
             tool="3"
             flavor2="0">
@@ -190,6 +180,14 @@
       </item>
       <item path="src/MPU9250.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/MahonyTiltSensor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MahonyTiltSensor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/MovingAverageTiltSensor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MovingAverageTiltSensor.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/PerformanceLap.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/PerformanceLap.h" ex="false" tool="3" flavor2="0">
@@ -203,7 +201,7 @@
     </conf>
     <conf name="BeagleBone-Debug" type="4">
       <toolsSet>
-        <compilerSet>BeagleBone|Cygwin</compilerSet>
+        <compilerSet>BeagleBone|Linux</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
@@ -212,22 +210,12 @@
       </qt>
       <compileType>
       </compileType>
-      <item path="src/MahonyTiltSensor.cpp"
+      <item path="src/MadgwickTiltSensor.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="src/MahonyTiltSensor.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="src/MovingAverageTiltSensor.cpp"
-            ex="false"
-            tool="1"
-            flavor2="0">
-      </item>
-      <item path="src/MovingAverageTiltSensor.h"
+      <item path="src/MadgwickTiltSensor.h"
             ex="false"
             tool="3"
             flavor2="0">
@@ -258,6 +246,14 @@
       </item>
       <item path="src/MPU9250.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/MahonyTiltSensor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MahonyTiltSensor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/MovingAverageTiltSensor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MovingAverageTiltSensor.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/PerformanceLap.cpp" ex="false" tool="1" flavor2="9">
       </item>
       <item path="src/PerformanceLap.h" ex="false" tool="3" flavor2="0">
@@ -271,7 +267,7 @@
     </conf>
     <conf name="BeagleBone-Release" type="4">
       <toolsSet>
-        <compilerSet>default</compilerSet>
+        <compilerSet>BeagleBone|Linux</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
@@ -293,22 +289,12 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="src/MahonyTiltSensor.cpp"
+      <item path="src/MadgwickTiltSensor.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="src/MahonyTiltSensor.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="src/MovingAverageTiltSensor.cpp"
-            ex="false"
-            tool="1"
-            flavor2="0">
-      </item>
-      <item path="src/MovingAverageTiltSensor.h"
+      <item path="src/MadgwickTiltSensor.h"
             ex="false"
             tool="3"
             flavor2="0">
@@ -338,6 +324,14 @@
       <item path="src/MPU9250.cpp" ex="false" tool="1" flavor2="9">
       </item>
       <item path="src/MPU9250.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/MahonyTiltSensor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MahonyTiltSensor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/MovingAverageTiltSensor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MovingAverageTiltSensor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/PerformanceLap.cpp" ex="false" tool="1" flavor2="9">
       </item>
