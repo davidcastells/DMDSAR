@@ -534,13 +534,13 @@ void MPU9250::get_sensor_resolution()
     switch(acc_scale)
     {
         case acc_scale_2g:
-            acc_resolution = 2./ACCELEROMETER_FULL_SCALE.;
+            acc_resolution = 2./ACCELEROMETER_FULL_SCALE;
             break;
         case acc_scale_4g:
-            acc_resolution = 4./ACCELEROMETER_FULL_SCALE.;
+            acc_resolution = 4./ACCELEROMETER_FULL_SCALE;
             break;
         case acc_scale_8g:
-            acc_resolution = 8./ACCELEROMETER_FULL_SCALE.;
+            acc_resolution = 8./ACCELEROMETER_FULL_SCALE;
             break;
         case acc_scale_16g:
             acc_resolution = 16./ACCELEROMETER_FULL_SCALE;
