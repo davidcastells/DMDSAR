@@ -1,19 +1,19 @@
 # This file is generated automatically. Do not edit.
 # Use project properties -> Build -> Qt -> Expert -> Custom Definitions.
 TEMPLATE = app
-DESTDIR = dist/MSYS2-Release/Cygwin-Windows
+DESTDIR = dist/MSYS2-Release/MSYS2-Windows
 TARGET = DMDSAR
 VERSION = 1.0.0
 CONFIG -= debug_and_release app_bundle lib_bundle
 CONFIG += release 
 PKGCONFIG +=
 QT = core gui widgets
-SOURCES += src/MahonyTiltSensor.cpp src/MovingAverageTiltSensor.cpp src/AbstractIMU.cpp src/AbstractTiltSensor.cpp src/Emulated9DOFIMU.cpp src/IMUEmulatorControl.cpp src/LogIMU.cpp src/MPU9250.cpp src/PerformanceLap.cpp src/Protractor.cpp src/main.cpp
-HEADERS += src/MahonyTiltSensor.h src/MovingAverageTiltSensor.h src/AbstractIMU.h src/AbstractTiltSensor.h src/Emulated9DOFIMU.h src/IMUEmulatorControl.h src/LogIMU.h src/MPU9250.h src/PerformanceLap.h src/Protractor.h
+SOURCES += src/MadgwickTiltSensor.cpp src/AbstractIMU.cpp src/AbstractTiltSensor.cpp src/Emulated9DOFIMU.cpp src/IMUEmulatorControl.cpp src/LogIMU.cpp src/MPU9250.cpp src/MahonyTiltSensor.cpp src/MovingAverageTiltSensor.cpp src/PerformanceLap.cpp src/Protractor.cpp src/main.cpp
+HEADERS += src/MadgwickTiltSensor.h src/AbstractIMU.h src/AbstractTiltSensor.h src/Emulated9DOFIMU.h src/IMUEmulatorControl.h src/LogIMU.h src/MPU9250.h src/MahonyTiltSensor.h src/MovingAverageTiltSensor.h src/PerformanceLap.h src/Protractor.h
 FORMS += src/IMUEmulatorControl.ui
 RESOURCES +=
 TRANSLATIONS +=
-OBJECTS_DIR = build/MSYS2-Release/Cygwin-Windows
+OBJECTS_DIR = build/MSYS2-Release/MSYS2-Windows
 MOC_DIR = 
 RCC_DIR = 
 UI_DIR = 
